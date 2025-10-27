@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Semangat ya!</title>
+
+  <style>
+    :root{
+      --primary: #fff;
+      --bg-color: rgb(5, 53, 61);
+      --bg-envelope-color: #f5edd1;
+      --envelope-tab: #ecdeb8;
+      --envelope-cover: #e6cfa7;
+      --shadow-color: rgba(0, 0, 0, 0.2);
+      --txt-color: #444;
+      --heart-color: rgb(252, 8, 231);
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin: 0;
+      padding: 0;
+      background: var(--bg-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+
+    .container {
+      height: 100vh;
+      display: grid;
+      place-items: center;
+    }
+
+    .container > .envelope-wrapper {
+      background: var(--bg-envelope-color);
+      box-shadow: 0 0 40px var(--shadow-color);
+      position: relative;
+      width: 320px;
+      height: 260px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      cursor: pointer;
+    }
+
+    .envelope-wrapper > .envelope {
+      position: relative;
+      width: 300px;
+      height: 230px;
+    }
+
+    .envelope-wrapper > .envelope::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      z-index: 2;
+      border-top: 130px solid var(--envelope-tab);
+      border-right: 150px solid transparent;
+      border-left: 150px solid transparent;
+      transform-origin: top;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .envelope-wrapper > .envelope::after {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      width: 0px;
+      height: 0px;
+      border-top: 130px solid transparent;
+      border-right: 150px solid var(--envelope-cover);
+      border-bottom: 100px solid var(--envelope-cover);
+      border-left: 150px solid var(--envelope-cover);
+    }
+
+    .envelope > .letter {
+      position: absolute;
+      right: 20%;
+      bottom: 0;
+      width: 54%;
+      height: 80%;
+      background: var(--primary);
+      text-align: center;
+      transition: all 0.6s ease-in-out;
+      box-shadow: 0 0 5px var(--shadow-color);
+      padding: 20px 10px;
+    }
+
+    .envelope > .letter > .text {
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      color: var(--txt-color);
+      text-align: left;
+      font-size: 10px;
+    }
+
+    .heart {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 15px;
+      height: 15px;
+      background: var(--heart-color);
+      z-index: 4;
+      transform: translate(-50%, -20%) rotate(45deg);
+      transition: transform 0.3s ease-in-out;
+      box-shadow: 0 1px 6px var(--shadow-color);
+      cursor: pointer;
+    }
+    .heart:before,
+    .heart:after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background-color: var(--heart-color);
+      border-radius: 50%;
+    }
+    .heart:before { top: -7.5px; }
+    .heart:after  { right: 7.5px; }
+
+    .flap > .envelope:before {
+      transform: rotateX(180deg);
+      z-index: 0;
+    }
+    .flap > .envelope > .letter {
+      bottom: 100px;
+      transform: scale(1.5);
+      transition-delay: 0.2s;
+    }
+    .flap > .heart {
+      transform: rotate(90deg);
+      transition-delay: 0.1s;
+    }
+
+    .tap-me{
+      position: absolute;
+      z-index: 6;
+      left: 50%;
+      top: 54%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+      font-weight: 600;
+      color: #b71c46;
+      background: rgba(255,255,255,0.95);
+      padding: 6px 10px;
+      border-radius: 999px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      pointer-events: none;
+      user-select: none;
+      opacity: 1;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      animation: tapPulseOpacity 1.2s infinite;
+      white-space: nowrap;
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+
+    @keyframes tapPulseOpacity {
+      0%   { opacity: 0.7; }
+      50%  { opacity: 1; }
+      100% { opacity: 0.7; }
+    }
+
+    .flap .tap-me{
+      opacity: 0;
+      transform: translate(-50%, -60%);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="envelope-wrapper">
+      <div class="tap-me">Tap me!</div>
+
+      <div class="envelope">
+        <div class="letter">
+          <div class="text">
+            <strong>Hai Ree</strong>
+            <p style="font-size: 9px;">
+              Semangat ya kuliah sama nyari topik skripsinya (kalau udah mulai cari). Sama satu lagi, jangan lupa bahagia ya
+            </p>
+            <p style="font-size: 7px;">
+              P.S. maaf belum bisa kasihin langsung ke kamu
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const envelope = document.querySelector('.envelope-wrapper');
+    envelope.addEventListener('click', () => {
+      envelope.classList.toggle('flap');
+    });
+  </script>
+</body>
+</html>
